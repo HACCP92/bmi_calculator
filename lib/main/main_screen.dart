@@ -97,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
                     return;
                   }
                   save();
-                  // final height = _heightController.text; 지우고 밑에 내려가서 코드 작성
+                  // final height = _heightController.text;
                   Navigator.push(
                     context,
                     MaterialPageRoute(
