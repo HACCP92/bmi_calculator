@@ -43,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
     if (height != null && weight != null) {
       _heightController.text = '$height';
       _weightController.text = '$weight';
-      print('키 : $height, 몸무게 : $weight');
+      // print('키 : $height, 몸무게 : $weight');
     }
   }
 
