@@ -18,18 +18,24 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  double _calcIbw() {
+    return widget.weight * 100 / (100 + (widget.bcs - 5) * 10);
+  }
+
   @override
   void initState() {
     super.initState();
-    // 5초 뒤에 결과 화면으로 이동
+    // 2초 뒤에 결과 화면으로 이동
     Timer(const Duration(seconds: 2), () {
+      final double ibw = _calcIbw();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoadingScreen(
-            weight: 0,
-            bcs: 0,
-          ), // ResultScreen으로 이동할 때 필요에 따라 맞게 수정
+          builder: (context) => ResultScreen(
+            weight: widget.weight,
+            bcs: widget.bcs,
+            ibw: ibw,
+          ),
         ),
       );
     });
@@ -43,7 +49,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           'assets/lottie/animation_lkuuqz8b.json',
           width: 200,
           height: 200,
-        ), // Lottie 애니메이션 파일 경로에 맞게 수정
+        ),
       ),
     );
   }

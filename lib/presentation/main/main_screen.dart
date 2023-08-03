@@ -159,15 +159,13 @@ class _MainScreenState extends State<MainScreen> {
                                 return;
                               }
                               save();
-                              var ibw;
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ResultScreen(
+                                  builder: (context) => LoadingScreen(
                                     weight:
                                         double.parse(_weightController.text),
                                     bcs: double.parse(_bcsController.text),
-                                    ibw: ibw, // 계산된 IBW 값을 전달합니다.
                                   ),
                                 ),
                               );
