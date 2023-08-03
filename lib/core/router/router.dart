@@ -1,20 +1,19 @@
+import 'package:bmi_calculator/presentation/main/main_screen.dart';
+import 'package:bmi_calculator/presentation/result/result_screen.dart';
 import 'package:go_router/go_router.dart';
-
-import 'main/main_screen.dart';
-import 'result/result_screen.dart';
 
 final router = GoRouter(
   routes: [
     GoRoute(
-      path: '/main',
+      path: '/',
       builder: (context, state) => const MainScreen(),
     ),
     GoRoute(
         path: '/main/result',
         builder: (context, state) {
-          double height = double.parse(state.queryParameters['height']!);
           double weight = double.parse(state.queryParameters['weight']!);
-          return ResultScreen(height: height, weight: weight);
+          double bcs = double.parse(state.queryParameters['bcs']!);
+          return ResultScreen(weight: weight, bcs: bcs);
         })
   ],
 );
