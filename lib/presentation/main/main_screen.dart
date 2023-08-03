@@ -44,32 +44,19 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  double _calcIbw() {
-    double weight = double.parse(_weightController.text);
-    double bcs = double.parse(_bcsController.text);
-    return weight * 100 / (100 + (bcs - 5) * 10);
-  }
+  String? _bcsErrorText;
 
-  Icon _buildIcon(double ibw) {
-    if (ibw >= 23) {
-      return const Icon(
-        Icons.sentiment_dissatisfied,
-        color: Colors.cyanAccent,
-        size: 100,
-      );
-    } else if (ibw >= 18.5) {
-      return const Icon(
-        Icons.sentiment_satisfied,
-        color: Colors.cyanAccent,
-        size: 100,
-      );
-    } else {
-      return const Icon(
-        Icons.sentiment_satisfied_rounded,
-        color: Colors.cyanAccent,
-        size: 100,
-      );
+  String? _validateBcs(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'BCS 점수를 입력하세요';
     }
+
+    final bcs = int.tryParse(value);
+    if (bcs == null || bcs < 1 || bcs > 9) {
+      return 'BCS 점수는 1부터 9까지 입력 가능합니다';
+    }
+
+    return null; // 유효성 검사 통과
   }
 
   @override
@@ -83,68 +70,76 @@ class _MainScreenState extends State<MainScreen> {
         padding: const EdgeInsets.all(10.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextFormField(
-                controller: _weightController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: '현재 체중 kg',
-                ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return '현재 체중을 입력하세요';
-                  }
-                  return null;
-                },
+          child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            TextFormField(
+              controller: _weightController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: '현재 체중 kg',
               ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _bcsController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'BCS 점수',
-                ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'BCS 점수를 입력하세요';
-                  }
-                  return null;
-                },
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '현재 체중을 입력하세요';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              controller: _bcsController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'BCS 점수',
               ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState?.validate() == false) {
-                    return;
-                  }
-                  save();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ResultScreen(
-                        weight: double.parse(_weightController.text),
-                        bcs: double.parse(_bcsController.text),
+              keyboardType: TextInputType.number,
+              validator: _validateBcs,
+              autovalidateMode:
+                  _bcsErrorText != null // 에러 메시지가 있을 때만 자동 유효성 검사 활성화
+                      ? AutovalidateMode.always
+                      : AutovalidateMode.disabled,
+              onChanged: (value) {
+                setState(() {
+                  _bcsErrorText = null; // 입력이 변경되면 에러 메시지 초기화
+                });
+              },
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween, //
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('BCS 점수 측정법'),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() == false) {
+                      setState(() {
+                        _bcsErrorText = 'BCS 점수를 입력하세요'; // 유효성 검사 에러 메시지 수동 추가
+                      });
+                      return;
+                    }
+                    save();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ResultScreen(
+                          weight: double.parse(_weightController.text),
+                          bcs: double.parse(_bcsController.text),
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: const Text('결과'),
-              ),
-              Text(
-                '현재 체중: ${_weightController.text} kg',
-                style: const TextStyle(fontSize: 20),
-              ),
-              Text(
-                '이상 체중: ${_calcIbw().toStringAsFixed(2)} kg',
-                style: const TextStyle(fontSize: 20),
-              ),
-              _buildIcon(_calcIbw()),
-            ],
-          ),
+                    );
+                  },
+                  child: const Hero(
+                    tag: 'result_button_tag', // 히어로 애니메이션을 위한 고유 태그를 제공합니다.
+                    child: Text('결과'),
+                  ),
+                ),
+              ],
+            ),
+          ]),
         ),
       ),
     );

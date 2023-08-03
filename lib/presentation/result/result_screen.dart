@@ -14,6 +14,28 @@ class ResultScreen extends StatelessWidget {
     return weight * 100 / (100 + (bcs - 5) * 10);
   }
 
+  Icon _buildIcon(double ibw) {
+    if (ibw > weight) {
+      return const Icon(
+        Icons.sentiment_dissatisfied,
+        color: Colors.yellow,
+        size: 100,
+      );
+    } else if (ibw == weight) {
+      return const Icon(
+        Icons.sentiment_satisfied_rounded,
+        color: Colors.blue,
+        size: 100,
+      );
+    } else {
+      return const Icon(
+        Icons.sentiment_dissatisfied_sharp,
+        color: Colors.red,
+        size: 100,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ibw = _calcIbw();
@@ -31,9 +53,10 @@ class ResultScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 20),
             ),
             Text(
-              '이상 체중: ${ibw.toStringAsFixed(2)} kg',
+              '표준 체중: ${ibw.toStringAsFixed(2)} kg',
               style: const TextStyle(fontSize: 20),
             ),
+            _buildIcon(ibw), // 아이콘 추가
           ],
         ),
       ),
