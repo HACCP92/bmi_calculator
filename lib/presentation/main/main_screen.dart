@@ -59,6 +59,14 @@ class _MainScreenState extends State<MainScreen> {
     return null; // 유효성 검사 통과
   }
 
+  void _resetFields() {
+    setState(() {
+      _weightController.text = ''; // 현재 체중 입력 초기화
+      _bcsController.text = ''; // BCS 점수 입력 초기화
+      _bcsErrorText = null; // 에러 메시지 초기화
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,76 +78,95 @@ class _MainScreenState extends State<MainScreen> {
         padding: const EdgeInsets.all(10.0),
         child: Form(
           key: _formKey,
-          child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            TextFormField(
-              controller: _weightController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '현재 체중 kg',
-              ),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return '현재 체중을 입력하세요';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              controller: _bcsController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'BCS 점수',
-              ),
-              keyboardType: TextInputType.number,
-              validator: _validateBcs,
-              autovalidateMode:
-                  _bcsErrorText != null // 에러 메시지가 있을 때만 자동 유효성 검사 활성화
-                      ? AutovalidateMode.always
-                      : AutovalidateMode.disabled,
-              onChanged: (value) {
-                setState(() {
-                  _bcsErrorText = null; // 입력이 변경되면 에러 메시지 초기화
-                });
-              },
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween, //
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('BCS 점수 측정법'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextFormField(
+                controller: _weightController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: '현재 체중 kg',
                 ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState?.validate() == false) {
-                      setState(() {
-                        _bcsErrorText = 'BCS 점수를 입력하세요'; // 유효성 검사 에러 메시지 수동 추가
-                      });
-                      return;
-                    }
-                    save();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ResultScreen(
-                          weight: double.parse(_weightController.text),
-                          bcs: double.parse(_bcsController.text),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '현재 체중을 입력하세요';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _bcsController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'BCS 점수',
+                ),
+                keyboardType: TextInputType.number,
+                validator: _validateBcs,
+                autovalidateMode:
+                    _bcsErrorText != null // 에러 메시지가 있을 때만 자동 유효성 검사 활성화
+                        ? AutovalidateMode.always
+                        : AutovalidateMode.disabled,
+                onChanged: (value) {
+                  setState(() {
+                    _bcsErrorText = null; // 입력이 변경되면 에러 메시지 초기화
+                  });
+                },
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('BCS 점수 측정법'),
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: _resetFields,
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: Center(
+                          child: IconButton(
+                            icon: Icon(Icons.restore),
+                            onPressed: _resetFields,
+                            iconSize: 24,
+                          ),
                         ),
                       ),
-                    );
-                  },
-                  child: const Hero(
-                    tag: 'result_button_tag', // 히어로 애니메이션을 위한 고유 태그를 제공합니다.
-                    child: Text('결과'),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() == false) {
+                            setState(() {
+                              _bcsErrorText = 'BCS 점수를 입력하세요';
+                            });
+                            return;
+                          }
+                          save();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ResultScreen(
+                                weight: double.parse(_weightController.text),
+                                bcs: double.parse(_bcsController.text),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Hero(
+                          tag: 'result_button_tag',
+                          child: Text('결과'),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ]),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
