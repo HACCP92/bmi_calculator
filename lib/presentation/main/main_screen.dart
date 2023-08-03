@@ -1,5 +1,4 @@
 import 'package:bmi_calculator/presentation/main/loading_screen.dart';
-import 'package:bmi_calculator/presentation/result/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,10 +39,11 @@ class _MainScreenState extends State<MainScreen> {
     final double? weight = prefs.getDouble('weight');
     final double? bcs = prefs.getDouble('bcs');
 
-    if (weight != null && bcs != null) {
-      _weightController.text = '$weight';
-      _bcsController.text = '$bcs';
-    }
+    setState(() {
+      _weightController.text = weight?.toStringAsFixed(0) ?? ''; // 정수 형식으로 초기화
+      _bcsController.text = bcs?.toStringAsFixed(0) ?? ''; // 정수 형식으로 초기화
+      _bcsErrorText = null; // 에러 메시지 초기화
+    });
   }
 
   String? _validateBcs(String? value) {
@@ -70,18 +70,17 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('강아지 표준 체중 계산'),
-      //   backgroundColor: Colors.amber.shade100,
-      // ),
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          Container(
-            width: double.infinity,
-            height: 380.0,
-            child: Image.asset(
-              'assets/dog_head.png',
-              fit: BoxFit.fill,
+          SingleChildScrollView(
+            child: SizedBox(
+              width: double.infinity,
+              height: 380.0,
+              child: Image.asset(
+                'assets/dog_head.png',
+                fit: BoxFit.fill,
+              ),
             ),
           ),
           Padding(
@@ -92,6 +91,7 @@ class _MainScreenState extends State<MainScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  const SizedBox(height: 60),
                   TextFormField(
                     controller: _weightController,
                     decoration: const InputDecoration(
@@ -106,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   TextFormField(
                     controller: _bcsController,
                     decoration: const InputDecoration(
