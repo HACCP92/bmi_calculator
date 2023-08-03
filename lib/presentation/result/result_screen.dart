@@ -8,6 +8,7 @@ class ResultScreen extends StatelessWidget {
     Key? key,
     required this.weight,
     required this.bcs,
+    required ibw,
   }) : super(key: key);
 
   double _calcIbw() {
@@ -56,7 +57,8 @@ class ResultScreen extends StatelessWidget {
               '표준 체중: ${ibw.toStringAsFixed(2)} kg',
               style: const TextStyle(fontSize: 20),
             ),
-            _buildIcon(ibw), // 아이콘 추가
+            _buildIcon(ibw),
+            // 아이콘 추가
           ],
         ),
       ),

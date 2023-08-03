@@ -1,6 +1,7 @@
+import 'package:bmi_calculator/presentation/main/loading_screen.dart';
+import 'package:bmi_calculator/presentation/result/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bmi_calculator/presentation/result/result_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class _MainScreenState extends State<MainScreen> {
   final _formKey = GlobalKey<FormState>();
   final _weightController = TextEditingController();
   final _bcsController = TextEditingController();
+  String? _bcsErrorText;
 
   @override
   void initState() {
@@ -44,8 +46,6 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  String? _bcsErrorText;
-
   String? _validateBcs(String? value) {
     if (value == null || value.isEmpty) {
       return 'BCS 점수를 입력하세요';
@@ -70,104 +70,122 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('강아지 표준 체중 계산'),
-        backgroundColor: Colors.amber.shade100,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextFormField(
-                controller: _weightController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: '현재 체중 kg',
-                ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return '현재 체중을 입력하세요';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _bcsController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'BCS 점수',
-                ),
-                keyboardType: TextInputType.number,
-                validator: _validateBcs,
-                autovalidateMode:
-                    _bcsErrorText != null // 에러 메시지가 있을 때만 자동 유효성 검사 활성화
-                        ? AutovalidateMode.always
-                        : AutovalidateMode.disabled,
-                onChanged: (value) {
-                  setState(() {
-                    _bcsErrorText = null; // 입력이 변경되면 에러 메시지 초기화
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // appBar: AppBar(
+      //   title: const Text('강아지 표준 체중 계산'),
+      //   backgroundColor: Colors.amber.shade100,
+      // ),
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: 380.0,
+            child: Image.asset(
+              'assets/dog_head.png',
+              fit: BoxFit.fill,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('BCS 점수 측정법'),
+                  TextFormField(
+                    controller: _weightController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: '현재 체중 kg',
+                    ),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '현재 체중을 입력하세요';
+                      }
+                      return null;
+                    },
                   ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: _bcsController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'BCS 점수',
+                    ),
+                    keyboardType: TextInputType.number,
+                    validator: _validateBcs,
+                    autovalidateMode:
+                        _bcsErrorText != null // 에러 메시지가 있을 때만 자동 유효성 검사 활성화
+                            ? AutovalidateMode.always
+                            : AutovalidateMode.disabled,
+                    onChanged: (value) {
+                      setState(() {
+                        _bcsErrorText = null; // 입력이 변경되면 에러 메시지 초기화
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
-                        onPressed: _resetFields,
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Center(
-                          child: IconButton(
-                            icon: Icon(Icons.restore),
-                            onPressed: _resetFields,
-                            iconSize: 24,
-                          ),
-                        ),
+                        onPressed: () {},
+                        child: const Text('BCS 점수 측정법'),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState?.validate() == false) {
-                            setState(() {
-                              _bcsErrorText = 'BCS 점수를 입력하세요';
-                            });
-                            return;
-                          }
-                          save();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResultScreen(
-                                weight: double.parse(_weightController.text),
-                                bcs: double.parse(_bcsController.text),
+                      Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              _resetFields();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                            ),
+                            child: Center(
+                              child: IconButton(
+                                icon: const Icon(Icons.restore),
+                                onPressed: _resetFields,
+                                iconSize: 24,
                               ),
                             ),
-                          );
-                        },
-                        child: const Hero(
-                          tag: 'result_button_tag',
-                          child: Text('결과'),
-                        ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState?.validate() == false) {
+                                setState(() {
+                                  _bcsErrorText = 'BCS 점수를 입력하세요';
+                                });
+                                return;
+                              }
+                              save();
+                              var ibw;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResultScreen(
+                                    weight:
+                                        double.parse(_weightController.text),
+                                    bcs: double.parse(_bcsController.text),
+                                    ibw: ibw, // 계산된 IBW 값을 전달합니다.
+                                  ),
+                                ),
+                              );
+                            },
+                            child: const Hero(
+                              tag: 'result_button_tag',
+                              child: Text('결과'),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

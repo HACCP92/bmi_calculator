@@ -41,7 +41,11 @@ class _MyAppState extends State<MyApp> {
           ? Scaffold(
               body: Center(
                 // 로딩 화면에 Lottie 애니메이션 추가
-                child: Lottie.asset('assets/lottie/animation_lkuuqz8b.json'),
+                child: Lottie.asset(
+                  'assets/lottie/animation_lkuuqz8b.json',
+                  width: 200,
+                  height: 200,
+                ),
               ),
             )
           : MainScreen(), // 로딩이 끝나면 MainScreen으로 이동
