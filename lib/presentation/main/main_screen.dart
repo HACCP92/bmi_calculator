@@ -19,6 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     load();
+    _resetFields(); // 앱이 시작될 때마다 값 초기화
   }
 
   @override
@@ -59,10 +60,22 @@ class _MainScreenState extends State<MainScreen> {
     return null; // 유효성 검사 통과
   }
 
-  void _resetFields() {
+  Future<void> _resetFields() async {
     setState(() {
       _weightController.text = ''; // 현재 체중 입력 초기화
       _bcsController.text = ''; // BCS 점수 입력 초기화
+      _bcsErrorText = null; // 에러 메시지 초기화
+    });
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('weight'); // 기존에 저장된 체중 데이터 삭제
+    await prefs.remove('bcs'); // 기존에 저장된 BCS 점수 데이터 삭제
+
+    final double? weight = prefs.getDouble('weight');
+    final double? bcs = prefs.getDouble('bcs');
+
+    setState(() {
+      _weightController.text = weight?.toStringAsFixed(0) ?? ''; // 정수 형식으로 초기화
+      _bcsController.text = bcs?.toStringAsFixed(0) ?? ''; // 정수 형식으로 초기화
       _bcsErrorText = null; // 에러 메시지 초기화
     });
   }
@@ -135,15 +148,53 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: Container(
+                                  width: 300, // 원하는 넓이로 변경
+                                  height: 200, // 원하는 높이로 변경
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'BCS 점수 측정법',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 20),
+                                      Text(
+                                        '모달 창 내용을 원하는 크기로 커스터마이즈할 수 있습니다.',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: 20),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('닫기'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
                         child: const Text('BCS 점수 측정법'),
                       ),
                       Row(
                         children: [
                           ElevatedButton(
-                            onPressed: () {
-                              _resetFields();
-                            },
+                            onPressed:
+                                _resetFields, // _resetFields() 메서드를 호출하도록 변경
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,
                             ),
