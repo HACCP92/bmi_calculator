@@ -70,6 +70,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -102,6 +103,10 @@ class _MainScreenState extends State<MainScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return '현재 체중을 입력하세요';
+                      }
+                      final weight = int.tryParse(value);
+                      if (weight == null || weight < 1 || weight > 99) {
+                        return '현재 체중은 1부터 99까지 입력 가능합니다';
                       }
                       return null;
                     },

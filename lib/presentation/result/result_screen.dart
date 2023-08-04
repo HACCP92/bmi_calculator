@@ -15,24 +15,24 @@ class ResultScreen extends StatelessWidget {
     return weight * 100 / (100 + (bcs - 5) * 10);
   }
 
-  Icon _buildIcon(double ibw) {
+  Image _buildImage(double ibw) {
     if (ibw > weight) {
-      return const Icon(
-        Icons.sentiment_dissatisfied,
-        color: Colors.yellow,
-        size: 100,
+      return Image.asset(
+        'assets/dog_image1.png', //
+        width: 200,
+        height: 200,
       );
     } else if (ibw == weight) {
-      return const Icon(
-        Icons.sentiment_satisfied_rounded,
-        color: Colors.blue,
-        size: 100,
+      return Image.asset(
+        'assets/dog_image2.png',
+        width: 200,
+        height: 200,
       );
     } else {
-      return const Icon(
-        Icons.sentiment_dissatisfied_sharp,
-        color: Colors.red,
-        size: 100,
+      return Image.asset(
+        'assets/dog_image3.png',
+        width: 200,
+        height: 200,
       );
     }
   }
@@ -40,11 +40,10 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ibw = _calcIbw();
+    final imageWidget = _buildImage(ibw);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('결과'), //결과 버튼을 어디다가 둬야할지...정인님에게 물어보기
-      ),
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -61,16 +60,23 @@ class ResultScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: kToolbarHeight), // 추가된 부분, AppBar 높이만큼 여백 추가
-                Text(
-                  '현재 체중: $weight kg',
-                  style: const TextStyle(fontSize: 20),
+                const SizedBox(height: 100), // 추가된 부분, AppBar 높이만큼 여백 추가
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '현재 체중 : $weight kg',
+                      style: const TextStyle(fontSize: 25),
+                    ),
+                    const SizedBox(width: 16), // 현재 체중과 표준 체중 사이 간격
+                    Text(
+                      '표준 체중 : ${ibw.toStringAsFixed(1)} kg',
+                      style: const TextStyle(fontSize: 25),
+                    ),
+                  ],
                 ),
-                Text(
-                  '표준 체중: ${ibw.toStringAsFixed(2)} kg',
-                  style: const TextStyle(fontSize: 20),
-                ),
-                _buildIcon(ibw),
+                const SizedBox(height: 16), // 이미지와 텍스트 사이 여백 조절
+                imageWidget,
               ],
             ),
           ),

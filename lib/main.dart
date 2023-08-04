@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _loadData() async {
-    await Future.delayed(Duration(seconds: 5)); // 2초간 로딩 시뮬레이션
+    await Future.delayed(const Duration(seconds: 5)); // 2초간 로딩 시뮬레이션
     setState(() {
       _isLoading = false;
     });
@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             )
-          : MainScreen(), // 로딩이 끝나면 MainScreen으로 이동
+          : const MainScreen(), // 로딩이 끝나면 MainScreen으로 이동
     );
   }
 }
