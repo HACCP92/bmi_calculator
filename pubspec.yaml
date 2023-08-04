@@ -69,6 +69,11 @@ flutter:
     - assets/dog_image1.png
     - assets/dog_image2.png
     - assets/dog_image3.png
+    - assets/dog_image1_rate.png
+    - assets/dog_image2_rate.png
+    - assets/dog_image3_rate.png
+    - assets/dog_image4_rate.png
+    - assets/dog_image5_rate.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

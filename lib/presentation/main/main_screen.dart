@@ -151,35 +151,37 @@ class _MainScreenState extends State<MainScreen> {
                         onPressed: () {
                           showDialog(
                             context: context,
-                            builder: (context) {
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
                               return Dialog(
                                 child: Container(
-                                  width: 300, // 원하는 넓이로 변경
-                                  height: 200, // 원하는 높이로 변경
-                                  padding: EdgeInsets.all(20),
+                                  width: 800, // 원하는 넓이로 변경
+                                  height: 600, // 원하는 높이로 변경
+                                  padding: const EdgeInsets.all(10),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'BCS 점수 측정법',
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(height: 20),
-                                      Text(
-                                        '모달 창 내용을 원하는 크기로 커스터마이즈할 수 있습니다.',
+                                      const SizedBox(height: 20),
+                                      const Text(
+                                        'bcs 점수 사진과 텍스트를 넣을 예정입니ㅇㅇㅇㅇㅇ다.',
                                         textAlign: TextAlign.center,
                                       ),
-                                      SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                       ElevatedButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
-                                        child: Text('닫기'),
+                                        child: const Text('닫기'),
                                       ),
                                     ],
                                   ),
