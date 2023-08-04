@@ -43,24 +43,38 @@ class ResultScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('결과'),
+        title: const Text('결과'), //결과 버튼을 어디다가 둬야할지...정인님에게 물어보기
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '현재 체중: $weight kg',
-              style: const TextStyle(fontSize: 20),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: SizedBox(
+              width: double.infinity,
+              height: 380.0,
+              child: Image.asset(
+                'assets/dog_head.png',
+                fit: BoxFit.fill,
+              ),
             ),
-            Text(
-              '표준 체중: ${ibw.toStringAsFixed(2)} kg',
-              style: const TextStyle(fontSize: 20),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: kToolbarHeight), // 추가된 부분, AppBar 높이만큼 여백 추가
+                Text(
+                  '현재 체중: $weight kg',
+                  style: const TextStyle(fontSize: 20),
+                ),
+                Text(
+                  '표준 체중: ${ibw.toStringAsFixed(2)} kg',
+                  style: const TextStyle(fontSize: 20),
+                ),
+                _buildIcon(ibw),
+              ],
             ),
-            _buildIcon(ibw),
-            // 아이콘 추가
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
