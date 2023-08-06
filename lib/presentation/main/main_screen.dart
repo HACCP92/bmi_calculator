@@ -18,7 +18,10 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildImageWithText({
     required String imageAsset,
     required String scoreText,
-    required String scoreDescription,
+    required String scoreDescription1,
+    required String scoreDescription2,
+    required String scoreDescription3,
+    required String scoreDescription4,
   }) {
     return Column(
       children: [
@@ -34,7 +37,22 @@ class _MainScreenState extends State<MainScreen> {
         ),
         const SizedBox(height: 5),
         Text(
-          scoreDescription,
+          scoreDescription1,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.normal),
+        ),
+        Text(
+          scoreDescription2,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.normal),
+        ),
+        Text(
+          scoreDescription3,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.normal),
+        ),
+        Text(
+          scoreDescription4,
           textAlign: TextAlign.center,
           style: const TextStyle(fontWeight: FontWeight.normal),
         ),
@@ -198,10 +216,11 @@ class _MainScreenState extends State<MainScreen> {
                                       const Text(
                                         'BCS 점수 측정법',
                                         style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 25,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      const SizedBox(height: 20),
                                       Expanded(
                                         child: ListView(
                                           children: [
@@ -209,37 +228,67 @@ class _MainScreenState extends State<MainScreen> {
                                               imageAsset:
                                                   'assets/dog_image1_rate.png',
                                               scoreText:
-                                                  '매우 마른 단계 (BCS 1 ~ 3 점)',
-                                              scoreDescription:
-                                                  '육안으로 봤을 때 뼈가 보이거나 \n 가슴을 쓰다듬었을 때 뼈가 느껴집니다. \n 갈비뼈와 허리등뼈(요추), 골반뼈가 잘 보이고 \n 만져지며 근육량과 체지방이 적은 상태입니다.',
+                                                  '매우 마른 단계 (BCS 1 ~ 2 점)',
+                                              scoreDescription1:
+                                                  '갈비뼈, 허리뼈, 골반뼈가 확연히 드러나 보이고 ',
+                                              scoreDescription2:
+                                                  '손에 잡히는 지방이 거의 없는상태로 ',
+                                              scoreDescription3:
+                                                  '가죽만 있으면 1단계, 최소 근육만',
+                                              scoreDescription4:
+                                                  ' 있는 경우 2단계 입니다.',
                                             ),
                                             _buildImageWithText(
                                               imageAsset:
                                                   'assets/dog_image2_rate.png',
-                                              scoreText: '두번째 점수',
-                                              scoreDescription:
-                                                  ' 두번째 점수에 대한 설명글',
+                                              scoreText: '저체중 단계 (BCS 3 점)',
+                                              scoreDescription1:
+                                                  '갈비뼈가 쉽게 만져지고 지방이',
+                                              scoreDescription2:
+                                                  '매우 적은 상태입니다. 갈비뼈 뒤로 ',
+                                              scoreDescription3:
+                                                  '허리가 확실히 구분되며 허리와 골반',
+                                              scoreDescription4:
+                                                  '부분에 지방조직이 약간 있는 상태입니다. ',
                                             ),
                                             _buildImageWithText(
                                               imageAsset:
                                                   'assets/dog_image3_rate.png',
-                                              scoreText: '첫 번째 점수',
-                                              scoreDescription:
-                                                  '첫 번째 점수에 대한 설명글',
+                                              scoreText:
+                                                  '이상적인 단계 (BCS 4 ~ 5 점)',
+                                              scoreDescription1:
+                                                  '갈비뼈가 보이지는 않지만 살짝 만졌을떄',
+                                              scoreDescription2:
+                                                  '만져지는 상태로 위에서 봤을떄 허리를',
+                                              scoreDescription3:
+                                                  '확인 할 수 있습니다. 강아지는 옆으로',
+                                              scoreDescription4:
+                                                  '배 부분이 쏙 들어가있으면 정상입니다.',
                                             ),
                                             _buildImageWithText(
                                               imageAsset:
                                                   'assets/dog_image4_rate.png',
-                                              scoreText: '첫 번째 점수',
-                                              scoreDescription:
-                                                  '첫 번째 점수에 대한 설명글',
+                                              scoreText: '과체중 단계 (BCS 6 ~ 7 점)',
+                                              scoreDescription1:
+                                                  '갈비뼈가 잘 만져지지 않고',
+                                              scoreDescription2:
+                                                  '허리라인이 거의 보이지 않으며',
+                                              scoreDescription3:
+                                                  '배가 살짝 동근 상태로 관리를',
+                                              scoreDescription4:
+                                                  '해주지 않으면 비만으로 이어집니다.',
                                             ),
                                             _buildImageWithText(
                                               imageAsset:
                                                   'assets/dog_image5_rate.png',
-                                              scoreText: '첫 번째 점수',
-                                              scoreDescription:
-                                                  '첫 번째 점수에 대한 설명글',
+                                              scoreText: '비만 단계 (BCS 8 ~ 9 점)',
+                                              scoreDescription1:
+                                                  '손에 힘을 주고 만져야 갈비뼈가 만져지는',
+                                              scoreDescription2:
+                                                  '상태로 위에서, 옆에서 봤을때 허리가 ',
+                                              scoreDescription3:
+                                                  '없는 상태입니다. 사지에도 지방이 축적되어',
+                                              scoreDescription4: '복부 팽창이 있습니다.',
                                             ),
                                           ],
                                         ),
@@ -250,8 +299,7 @@ class _MainScreenState extends State<MainScreen> {
                                           Navigator.of(context).pop();
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              const Color(0xFFF2AB65),
+                                          backgroundColor: Colors.orangeAccent,
                                           //
                                         ),
                                         child: const Text(
