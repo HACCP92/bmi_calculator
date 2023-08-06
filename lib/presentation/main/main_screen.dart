@@ -91,19 +91,14 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _weightController.text = ''; // 현재 체중 입력 초기화
       _bcsController.text = ''; // BCS 점수 입력 초기화
-      _bcsErrorText = null; // 에러 메시지 초기화
     });
+
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('weight'); // 기존에 저장된 체중 데이터 삭제
     await prefs.remove('bcs'); // 기존에 저장된 BCS 점수 데이터 삭제
 
-    final double? weight = prefs.getDouble('weight');
-    final double? bcs = prefs.getDouble('bcs');
-
     setState(() {
-      _weightController.text = weight?.toStringAsFixed(0) ?? ''; // 정수 형식으로 초기화
-      _bcsController.text = bcs?.toStringAsFixed(0) ?? ''; // 정수 형식으로 초기화
-      _bcsErrorText = null; // 에러 메시지 초기화
+      _bcsErrorText = null;
     });
   }
 
@@ -136,7 +131,11 @@ class _MainScreenState extends State<MainScreen> {
                   TextFormField(
                     controller: _weightController,
                     decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent)),
                       hintText: '현재 체중 kg',
                     ),
                     keyboardType: TextInputType.number,
@@ -155,7 +154,11 @@ class _MainScreenState extends State<MainScreen> {
                   TextFormField(
                     controller: _bcsController,
                     decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent)),
                       hintText: 'BCS 점수',
                     ),
                     keyboardType: TextInputType.number,
@@ -202,23 +205,21 @@ class _MainScreenState extends State<MainScreen> {
                                       Expanded(
                                         child: ListView(
                                           children: [
-                                            // 첫 번째 설명글과 이미지
                                             _buildImageWithText(
                                               imageAsset:
                                                   'assets/dog_image1_rate.png',
-                                              scoreText: '첫 번째 점수',
+                                              scoreText:
+                                                  '매우 마른 단계 (BCS 1 ~ 3 점)',
                                               scoreDescription:
-                                                  '첫 번째 점수에 대한 설명글',
+                                                  '육안으로 봤을 때 뼈가 보이거나 \n 가슴을 쓰다듬었을 때 뼈가 느껴집니다. \n 갈비뼈와 허리등뼈(요추), 골반뼈가 잘 보이고 \n 만져지며 근육량과 체지방이 적은 상태입니다.',
                                             ),
-                                            // 두 번째 설명글과 이미지
                                             _buildImageWithText(
                                               imageAsset:
                                                   'assets/dog_image2_rate.png',
-                                              scoreText: '첫 번째 점수',
+                                              scoreText: '두번째 점수',
                                               scoreDescription:
-                                                  '첫 번째 점수에 대한 설명글',
+                                                  ' 두번째 점수에 대한 설명글',
                                             ),
-                                            // 세 번째 설명글과 이미지 (이하 동일한 방식으로 추가)
                                             _buildImageWithText(
                                               imageAsset:
                                                   'assets/dog_image3_rate.png',
@@ -269,8 +270,7 @@ class _MainScreenState extends State<MainScreen> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color(0xFFF2AB65), // 버튼 배경색상 변경
+                          backgroundColor: Colors.orangeAccent, // 버튼 배경색상 변경
                         ),
                         child: const Text(
                           'BCS 점수 측정법',
@@ -283,12 +283,11 @@ class _MainScreenState extends State<MainScreen> {
                       Row(
                         children: [
                           ElevatedButton(
-                            onPressed: () {
-                              _resetFields();
-                            }, // _resetFields() 메서드를 호출하도록 변경
+                            onPressed:
+                                _resetFields, // _resetFields() 메서드를 호출하도록 변경
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,
-                              backgroundColor: const Color(0xFFF2AB65),
+                              backgroundColor: Colors.orangeAccent,
                             ),
                             child: Center(
                               child: GestureDetector(
@@ -327,8 +326,7 @@ class _MainScreenState extends State<MainScreen> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color(0xFFF2AB65), // 배경색 설정
+                              backgroundColor: Colors.orangeAccent, // 배경색 설정
                             ),
                             child: const Hero(
                               tag: 'result_button_tag',
