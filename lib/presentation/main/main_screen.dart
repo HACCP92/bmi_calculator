@@ -15,6 +15,33 @@ class _MainScreenState extends State<MainScreen> {
   final _bcsController = TextEditingController();
   String? _bcsErrorText;
 
+  Widget _buildImageWithText({
+    required String imageAsset,
+    required String scoreText,
+    required String scoreDescription,
+  }) {
+    return Column(
+      children: [
+        Image.asset(
+          imageAsset,
+          width: 200, // 이미지 너비 조절
+          height: 200, // 이미지 높이 조절
+        ),
+        Text(
+          scoreText,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          scoreDescription,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.normal),
+        ),
+      ],
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -154,6 +181,7 @@ class _MainScreenState extends State<MainScreen> {
                             barrierDismissible: true,
                             builder: (BuildContext context) {
                               return Dialog(
+                                backgroundColor: Colors.white,
                                 child: Container(
                                   width: 800, // 원하는 넓이로 변경
                                   height: 600, // 원하는 높이로 변경
@@ -171,17 +199,67 @@ class _MainScreenState extends State<MainScreen> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      const SizedBox(height: 20),
-                                      const Text(
-                                        'bcs 점수 사진과 텍스트를 넣을 예정입니ㅇㅇㅇㅇㅇ다.',
-                                        textAlign: TextAlign.center,
+                                      Expanded(
+                                        child: ListView(
+                                          children: [
+                                            // 첫 번째 설명글과 이미지
+                                            _buildImageWithText(
+                                              imageAsset:
+                                                  'assets/dog_image1_rate.png',
+                                              scoreText: '첫 번째 점수',
+                                              scoreDescription:
+                                                  '첫 번째 점수에 대한 설명글',
+                                            ),
+                                            // 두 번째 설명글과 이미지
+                                            _buildImageWithText(
+                                              imageAsset:
+                                                  'assets/dog_image2_rate.png',
+                                              scoreText: '첫 번째 점수',
+                                              scoreDescription:
+                                                  '첫 번째 점수에 대한 설명글',
+                                            ),
+                                            // 세 번째 설명글과 이미지 (이하 동일한 방식으로 추가)
+                                            _buildImageWithText(
+                                              imageAsset:
+                                                  'assets/dog_image3_rate.png',
+                                              scoreText: '첫 번째 점수',
+                                              scoreDescription:
+                                                  '첫 번째 점수에 대한 설명글',
+                                            ),
+                                            _buildImageWithText(
+                                              imageAsset:
+                                                  'assets/dog_image4_rate.png',
+                                              scoreText: '첫 번째 점수',
+                                              scoreDescription:
+                                                  '첫 번째 점수에 대한 설명글',
+                                            ),
+                                            _buildImageWithText(
+                                              imageAsset:
+                                                  'assets/dog_image5_rate.png',
+                                              scoreText: '첫 번째 점수',
+                                              scoreDescription:
+                                                  '첫 번째 점수에 대한 설명글',
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: 10),
                                       ElevatedButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
-                                        child: const Text('닫기'),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFFF2AB65),
+                                          //
+                                        ),
+                                        child: const Text(
+                                          '닫기',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold, //
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -190,24 +268,44 @@ class _MainScreenState extends State<MainScreen> {
                             },
                           );
                         },
-                        child: const Text('BCS 점수 측정법'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color(0xFFF2AB65), // 버튼 배경색상 변경
+                        ),
+                        child: const Text(
+                          'BCS 점수 측정법',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold, // 버튼 글자색 변경
+                          ),
+                        ),
                       ),
                       Row(
                         children: [
                           ElevatedButton(
-                            onPressed:
-                                _resetFields, // _resetFields() 메서드를 호출하도록 변경
+                            onPressed: () {
+                              _resetFields();
+                            }, // _resetFields() 메서드를 호출하도록 변경
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,
+                              backgroundColor: const Color(0xFFF2AB65),
                             ),
                             child: Center(
-                              child: IconButton(
-                                icon: const Icon(Icons.restore),
-                                onPressed: _resetFields,
-                                iconSize: 24,
+                              child: GestureDetector(
+                                onTap: _resetFields,
+                                child: Container(
+                                  width: 40, // 아이콘의 넓이 조절
+                                  height: 40, // 아이콘의 높이 조절
+                                  child: const Icon(
+                                    Icons.refresh,
+                                    size: 24,
+                                    color: Colors.white, // 아이콘 색상 설정
+                                  ),
+                                ),
                               ),
                             ),
                           ),
+                          const SizedBox(width: 3),
                           ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState?.validate() == false) {
@@ -228,9 +326,19 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                               );
                             },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color(0xFFF2AB65), // 배경색 설정
+                            ),
                             child: const Hero(
                               tag: 'result_button_tag',
-                              child: Text('결과'),
+                              child: Text(
+                                '결과',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold, // 글자색 설정
+                                ),
+                              ),
                             ),
                           ),
                         ],
