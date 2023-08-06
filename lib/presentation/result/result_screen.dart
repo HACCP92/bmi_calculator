@@ -75,8 +75,31 @@ class ResultScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16), // 이미지와 텍스트 사이 여백 조절
+
                 imageWidget,
+
+                Container(
+                  width: 100, //
+                  child: Column(
+                    children: [
+                      //
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.orangeAccent, // 배경색상 설정
+                          shape: BoxShape.circle, //
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.home),
+                          color: Colors.white, // 아이콘 색상 설정
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 8), // 아이콘과 이미지 사이 간격
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
