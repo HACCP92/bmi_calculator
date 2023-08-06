@@ -33,7 +33,10 @@ class _MainScreenState extends State<MainScreen> {
         Text(
           scoreText,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
         const SizedBox(height: 5),
         Text(
@@ -41,16 +44,19 @@ class _MainScreenState extends State<MainScreen> {
           textAlign: TextAlign.center,
           style: const TextStyle(fontWeight: FontWeight.normal),
         ),
+        const SizedBox(height: 5),
         Text(
           scoreDescription2,
           textAlign: TextAlign.center,
           style: const TextStyle(fontWeight: FontWeight.normal),
         ),
+        const SizedBox(height: 5),
         Text(
           scoreDescription3,
           textAlign: TextAlign.center,
           style: const TextStyle(fontWeight: FontWeight.normal),
         ),
+        const SizedBox(height: 5),
         Text(
           scoreDescription4,
           textAlign: TextAlign.center,
@@ -293,7 +299,7 @@ class _MainScreenState extends State<MainScreen> {
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(height: 10),
+                                      const SizedBox(height: 20),
                                       ElevatedButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
@@ -306,10 +312,12 @@ class _MainScreenState extends State<MainScreen> {
                                           '닫기',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontWeight: FontWeight.bold, //
+                                            fontWeight: FontWeight.bold,
+                                            //
                                           ),
                                         ),
                                       ),
+                                      const SizedBox(height: 10),
                                     ],
                                   ),
                                 ),

@@ -8,7 +8,7 @@ class ResultScreen extends StatelessWidget {
     Key? key,
     required this.weight,
     required this.bcs,
-    required ibw,
+    required double ibw,
   }) : super(key: key);
 
   double _calcIbw() {
@@ -18,7 +18,7 @@ class ResultScreen extends StatelessWidget {
   Image _buildImage(double ibw) {
     if (ibw > weight) {
       return Image.asset(
-        'assets/dog_image1.png', //
+        'assets/dog_image1.png',
         width: 200,
         height: 200,
       );
@@ -37,10 +37,21 @@ class ResultScreen extends StatelessWidget {
     }
   }
 
+  String _getWeightStatus(double ibw) {
+    if (weight < ibw) {
+      return '저체중';
+    } else if (weight == ibw) {
+      return '정상체중';
+    } else {
+      return '과체중';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ibw = _calcIbw();
     final imageWidget = _buildImage(ibw);
+    final weightStatus = _getWeightStatus(ibw);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -65,9 +76,15 @@ class ResultScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      '체중 상태 : $weightStatus',
+                      style: const TextStyle(fontSize: 25),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
                       '현재 체중 : $weight kg',
                       style: const TextStyle(fontSize: 25),
                     ),
+                    // 추가된 부분, 체중 상태 표시
                     const SizedBox(width: 16), // 현재 체중과 표준 체중 사이 간격
                     Text(
                       '표준 체중 : ${ibw.toStringAsFixed(1)} kg',
