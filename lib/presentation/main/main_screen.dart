@@ -160,7 +160,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent)),
-                      hintText: '현재 체중 kg',
+                      hintText: '현재 체중을 입력해주세요.',
                     ),
                     keyboardType: TextInputType.number,
                     validator: (value) {
@@ -169,7 +169,7 @@ class _MainScreenState extends State<MainScreen> {
                       }
                       final weight = int.tryParse(value);
                       if (weight == null || weight < 1 || weight > 99) {
-                        return '현재 체중은 1부터 99까지 입력 가능합니다';
+                        return '현재 체중은 1부터 99까지 숫자만 입력 가능합니다';
                       }
                       return null;
                     },
@@ -183,7 +183,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent)),
-                      hintText: 'BCS 점수',
+                      hintText: 'BCS 점수를 입력해주세요.',
                     ),
                     keyboardType: TextInputType.number,
                     validator: _validateBcs,
@@ -385,7 +385,7 @@ class _MainScreenState extends State<MainScreen> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orangeAccent, // 배경색 설정
+                              backgroundColor: Colors.blueAccent, // 배경색 설정
                             ),
                             child: const Hero(
                               tag: 'result_button_tag',
