@@ -208,10 +208,13 @@ class _MainScreenState extends State<MainScreen> {
                             barrierDismissible: true,
                             builder: (BuildContext context) {
                               return Dialog(
-                                backgroundColor: Colors.white,
                                 child: Container(
-                                  width: 800, // 원하는 넓이로 변경
-                                  height: 600, // 원하는 높이로 변경
+                                  width: 800,
+                                  height: 600,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
                                   padding: const EdgeInsets.all(10),
                                   child: Column(
                                     mainAxisAlignment:
