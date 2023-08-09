@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bmi_calculator/presentation/result/result_screen.dart';
+import 'package:Dog_IBW_Calulator/presentation/result/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -25,7 +25,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    // 2초 뒤에 결과 화면으로 이동
+    // 2초 뒤에 결과 화면으로 이동합니다.
     Timer(const Duration(seconds: 2), () {
       final double ibw = _calcIbw();
       Navigator.pushReplacement(

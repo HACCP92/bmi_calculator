@@ -1,5 +1,5 @@
-import 'package:bmi_calculator/presentation/main/loading_screen.dart';
-import 'package:bmi_calculator/presentation/main/main_screen.dart';
+import 'package:Dog_IBW_Calulator/presentation/main/loading_screen.dart';
+import 'package:Dog_IBW_Calulator/presentation/main/main_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(

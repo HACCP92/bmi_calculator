@@ -19,11 +19,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _loadData(); // 데이터 로딩 시간을 대신할 수 있는 예시 함수입니다.
+    _loadData(); //
   }
 
   void _loadData() async {
-    await Future.delayed(const Duration(seconds: 5)); // 2초간 로딩 시뮬레이션
+    await Future.delayed(const Duration(seconds: 5)); //
     setState(() {
       _isLoading = false;
     });
