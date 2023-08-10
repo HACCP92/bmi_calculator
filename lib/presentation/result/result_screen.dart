@@ -71,7 +71,7 @@ class ResultScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 100), // 추가된 부분, AppBar 높이만큼 여백 추가
+                const SizedBox(height: 200), // 추가된 부분, AppBar 높이만큼 여백 추가
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
