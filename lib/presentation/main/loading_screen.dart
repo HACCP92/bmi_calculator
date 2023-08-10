@@ -22,10 +22,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return widget.weight * 100 / (100 + (widget.bcs - 5) * 10);
   }
 
+  bool animationStarted = false; //
+
   @override
   void initState() {
     super.initState();
-    // 2초 뒤에 결과 화면으로 이동합니다.
     Timer(const Duration(seconds: 2), () {
       final double ibw = _calcIbw();
       Navigator.pushReplacement(
@@ -39,16 +40,31 @@ class _LoadingScreenState extends State<LoadingScreen> {
         ),
       );
     });
+
+    // 추가: 0.5초 뒤에 애니메이션 시작
+    Timer(const Duration(milliseconds: 500), () {
+      setState(() {
+        animationStarted = true;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Lottie.asset(
-          'assets/lottie/animation_lkuuqz8b.json',
-          width: 200,
-          height: 200,
+      body: Container(
+        alignment: Alignment.center,
+        child: Center(
+          child: AnimatedOpacity(
+            // 추가: 애니메이션 시작 여부에 따라 Opacity를 조정하여 나타나게 함
+            opacity: animationStarted ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 1000),
+            child: Lottie.asset(
+              'assets/lottie/animation_lkuuqz8b.json',
+              width: 200,
+              height: 200,
+            ),
+          ),
         ),
       ),
     );
