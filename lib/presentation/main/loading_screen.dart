@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:Dog_IBW_Calulator/presentation/result/result_screen.dart';
+import 'package:dog_ibw_calulator/presentation/result/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 

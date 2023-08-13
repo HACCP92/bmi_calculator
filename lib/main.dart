@@ -1,4 +1,4 @@
-import 'package:Dog_IBW_Calulator/presentation/main/main_screen.dart';
+import 'package:dog_ibw_calulator/presentation/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
