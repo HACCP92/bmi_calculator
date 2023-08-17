@@ -39,6 +39,7 @@ dependencies:
   go_router: ^8.1.0
   flutter_native_splash: ^2.3.1
   lottie: ^2.5.0
+  google_mobile_ads: ^3.0.0
 
 dev_dependencies:
   flutter_test:
