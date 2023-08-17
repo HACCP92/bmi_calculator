@@ -28,7 +28,6 @@
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="[
-ca-app-pub-1136520834945848/1315817298]"/>
+            android:value="ca-app-pub-1136520834945848/1315817298"/>
     </application>
 </manifest>
