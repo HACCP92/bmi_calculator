@@ -1,19 +1,8 @@
-import 'package:dog_ibw_calulator/presentation/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-
-const Map<String, String> UNIT_ID = kReleaseMode
-    ? {
-        'ios': '[YOUR iOS AD UNIT ID]',
-        'android': '[YOUR ANDROID AD UNIT ID]',
-      }
-    : {
-        'ios': 'ca-app-pub-3940256099942544/2934735716',
-        'android': 'ca-app-pub-3940256099942544/6300978111',
-      };
 
 void main() {
   runApp(const MyApp());
@@ -46,13 +35,32 @@ class _MyAppState extends StatefulWidget {
 class _MyAppStateState extends State<_MyAppState> {
   bool _isLoading = true;
   late BannerAd _bannerAd;
+  bool _adLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    _loadAd();
     _loadData();
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_adLoaded) {
+      _loadAd();
+      _adLoaded = true;
+    }
+  }
+
+  Map<String, String> UNIT_ID = kReleaseMode
+      ? {
+          'ios': '[YOUR iOS AD UNIT ID]',
+          'android': '[YOUR ANDROID AD UNIT ID]',
+        }
+      : {
+          'ios': 'ca-app-pub-3940256099942544/2934735716',
+          'android': 'ca-app-pub-3940256099942544/6300978111',
+        };
 
   void _loadAd() {
     TargetPlatform os = Theme.of(context).platform;
@@ -120,5 +128,16 @@ class _MyAppStateState extends State<_MyAppState> {
               ),
             ),
           );
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Main Screen Content"),
+    );
   }
 }
