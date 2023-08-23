@@ -4,4 +4,12 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="29" />
+
+    <application>
+    <!-- ... other application-related elements ... -->
+    <meta-data
+        android:name="com.google.android.gms.ads.APPLICATION_ID"
+        android:value="ca-app-pub-1136520834945848~2460543854"/>
+</application>
 </manifest>
