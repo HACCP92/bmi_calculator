@@ -1,38 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:lottie/lottie.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'presentation/main/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const _MyAppState(),
-    );
-  }
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends StatefulWidget {
-  const _MyAppState({Key? key}) : super(key: key);
-
-  @override
-  State<_MyAppState> createState() => _MyAppStateState();
-}
-
-class _MyAppStateState extends State<_MyAppState> {
+class _MyAppState extends State<MyApp> {
   bool _isLoading = true;
   late BannerAd _bannerAd;
   bool _adLoaded = false;
@@ -83,7 +66,7 @@ class _MyAppStateState extends State<_MyAppState> {
   }
 
   void _loadData() async {
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5)); // 2초간 로딩 시뮬레이션
     setState(() {
       _isLoading = false;
     });
@@ -97,25 +80,23 @@ class _MyAppStateState extends State<_MyAppState> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-    return _isLoading
-        ? Scaffold(
-            body: Center(
-              child: Lottie.asset(
-                'assets/lottie/animation_lkuuqz8b.json',
-                width: 200,
-                height: 200,
-              ),
-            ),
-          )
-        : Scaffold(
-            appBar: AppBar(
-              title: const Text('Admob'),
-            ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+      ),
+      home: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: _isLoading
+            ? Center(
+                child: Lottie.asset(
+                  'assets/lottie/animation_lkuuqz8b.json',
+                  width: 200,
+                  height: 200,
+                ),
+              )
+            : Column(
                 children: [
                   Expanded(
                     child: const MainScreen(),
@@ -126,18 +107,7 @@ class _MyAppStateState extends State<_MyAppState> {
                   ),
                 ],
               ),
-            ),
-          );
-  }
-}
-
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text("Main Screen Content"),
+      ),
     );
   }
 }
